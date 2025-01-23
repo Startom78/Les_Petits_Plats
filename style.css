@@ -103,9 +103,135 @@ body {
 }
 
 main{
-    width: auto;
-    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
     background-color: #E5E5E5;
-}
+    border: 1px solid greenyellow;
 
+    & p{
+        font-size: 12px;
+        border: 1px solid orange;
+    }
+
+    & .overlay{
+        width: 80%;
+        height: 200px;
+        border: 1px solid red;
+    }
+    
+    & #cards{
+        width: 80%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 48px;
+        align-items: center;
+        border: 1px solid blue;
+    }
+    & .card{
+        width: 100%;
+        min-width: 340px;
+        height: 700px;
+        border: 1px solid purple;
+        background-color: white;
+        border-radius: 21px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        font-family: Manrope, sans-serif;
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+
+        & .imgContainer{
+            position: relative;
+            width: 100%;
+            height: 30%;
+            border: 1px solid green;
+
+            & img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            & .timeContainer{
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                right: 0;
+                top: 0;
+                margin: 26px 11px 0 0;
+                border-radius: 14px;
+                min-width: 50px;
+                min-height: 20px;
+                background-color: #FFD15B;
+                border: 1px solid red;
+
+                & .timeCooking{
+                    font-family: Manrope, sans-serif;
+                    font-size: 12px;
+                    font-weight: none;
+                    border: 1px solid green;
+                }
+            }
+        }
+
+
+        & h2{
+            font-family: Anton, sans-serif;
+            font-weight: 400;
+            border: 1px solid brown;
+            margin-top: 31px;
+            font-size: 18px;
+            gap: 10px;
+        }
+
+        & .infoRecipe{
+            justify-content: center;
+            width: 90%;           
+            /*height: 70%;*/
+            border: 1px solid turquoise;
+
+            & .titleInCard{
+                font-size: 16px;
+                font-weight: 700;
+                color: #7A7A7A;
+                margin-top: 15px;
+            }
+
+            & .description{
+                font-size: 14px;
+                margin-top: 15px;
+                border: 1px solid brown;
+            }
+
+            & .listOfIngredients{
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                border: 1px solid red;
+                margin-top: 29px;
+                gap: 20px;
+
+                & .myIngredient{
+                    gap: 20px;
+
+                    & .ingredient{
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+
+                    & .quantity{
+                        font-size: 14px;
+                        color: #7A7A7A;
+                    }
+                }
+        }
+    }
+}
 
