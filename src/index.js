@@ -6,8 +6,11 @@ async function init() {
   // Récupère les datas des recettes
   const recipes = await getRecipes();
   console.log(recipes);
+  const cards = document.getElementById('cards');
+
   recipes.forEach(recipe => { // Pour chaque recette, je crée une carte de celle-ci
-    createCard(recipe);
+   const card = createCard(recipe);
+   cards.appendChild(card);
   })
 }
 window.onload = () => {

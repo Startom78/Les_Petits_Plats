@@ -1,5 +1,4 @@
 function createCard(recipe) {
-  const cards = document.getElementById('cards');
   const card = document.createElement("div");
   card.classList.add("card");
   console.log(card);
@@ -25,18 +24,19 @@ function createCard(recipe) {
   titleRecipe.textContent = recipe.name;
   titleRecipe.classList.add("titleRecipe");
 
+  const recipeDescContainer = document.createElement('div');
+  recipeDescContainer.classList.add('recipeBlock');
+
   const recipeP = document.createElement("p");
   recipeP.textContent = "recette";
   recipeP.classList.add("titleInCard");
 
-  const recipeDescription = document.createElement("div");
-  recipeDescription.classList.add("description");
-  recipeDescription.textContent = recipe.description;
+  const recipeText = document.createElement("p");
+  recipeText.classList.add("text");
+  recipeText.textContent = recipe.description;
 
-
-  const textRecipe = document.createElement("p");
-  textRecipe.textContent = recipe.description;
-  textRecipe.classList.add("description");
+  const ingredientContainer = document.createElement('div');
+  ingredientContainer.classList.add('recipeBlock');
 
   const ingredientsTitle = document.createElement("p");
   ingredientsTitle.textContent = "Ingrédients";
@@ -54,26 +54,24 @@ function createCard(recipe) {
     const quantity = document.createElement('p');
     quantity.classList.add('quantity');
 
-    const unit = document.createElement('p');
-    unit.classList.add('unit');
-
-    if (ingredients.quantity === undefined){
-      ingredient.textContent = `${ingredients.ingredient}`;
-    }
-
-    else if (ingredients.unit === undefined){
-      ingredient.textContent = `${ingredients.ingredient}`;
-      quantity.textContent = `${ingredients.quantity}`;
-    }
-
-    else{
-      ingredient.textContent = `${ingredients.ingredient}`;
-      quantity.textContent = `${ingredients.quantity} ${ingredients.unit}`;
-    }
-
+    ingredient.textContent = `${ingredients.ingredient}`;
     myIngredient.appendChild(ingredient);
-    myIngredient.appendChild(quantity);
-    myIngredient.appendChild(unit);
+
+    if (ingredients.quantity !== undefined){
+      const quantity = document.createElement('p');
+      quantity.classList.add('quantity');
+      myIngredient.appendChild(quantity);
+
+      if (ingredients.unit === undefined){
+        quantity.textContent = `${ingredients.quantity}`;
+      }
+  
+      else{
+        quantity.textContent = `${ingredients.quantity} ${ingredients.unit}`;
+      }
+
+    }
+
     ingredientsList.appendChild(myIngredient);
 
   })
@@ -83,15 +81,18 @@ function createCard(recipe) {
   imgContainer.appendChild(timeContainer);
   imgContainer.appendChild(img);
 
+  recipeDescContainer.appendChild(recipeP);
+  recipeDescContainer.appendChild(recipeText);
+
+  ingredientContainer.appendChild(ingredientsTitle);
+  ingredientContainer.appendChild(ingredientsList);
+
   infoRecipe.appendChild(titleRecipe);
-  infoRecipe.appendChild(recipeP);
-  infoRecipe.appendChild(recipeDescription);
-  infoRecipe.appendChild(ingredientsTitle);
-  infoRecipe.appendChild(ingredientsList);
+  infoRecipe.appendChild(recipeDescContainer);
+  infoRecipe.appendChild(ingredientContainer);
 
   card.appendChild(imgContainer);
   card.appendChild(infoRecipe);
-  cards.appendChild(card);
   
   return card;
 }
