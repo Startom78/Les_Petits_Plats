@@ -1,7 +1,6 @@
 function createCard(recipe) {
   const card = document.createElement("div");
   card.classList.add("card");
-  console.log(card);
 
   const imgContainer = document.createElement("div");
   imgContainer.classList.add("imgContainer");
@@ -75,7 +74,6 @@ function createCard(recipe) {
     ingredientsList.appendChild(myIngredient);
 
   })
-  console.log(ingredientsList);
 
   timeContainer.appendChild(timeCooking);
   imgContainer.appendChild(timeContainer);
