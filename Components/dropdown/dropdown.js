@@ -38,42 +38,42 @@ function createDropdown(title, options, onSelect = () => {}) {
             }
 
             item.classList.add('hidden');
-            selecteds.innerHTML = `<div class = "item"> ${option} </div> `
+            selecteds.innerHTML = `<div class = "item"> <span> ${option} </span> <i class = "fa-solid fa-circle-xmark close-button" id = "closeButton"> </i> </div>`
+
+            const closeButton = selecteds.querySelector('#closeButton');
+            closeButton.addEventListener('click', () => {
+                lastItem.classList.remove('hidden');
+                lastItem = null;
+                selecteds.innerHTML = ``;
+                onSelect?.('');
+            })
+
             lastItem = item;
             onSelect?.(option);
         })
         items.appendChild(item);
     });
 
-
     list.appendChild(selecteds);
     list.appendChild(items);
-    
-    
-    /*options.forEach(option => {
-        const item = document.createElement('div');
-        item.classList.add('item');
-        item.textContent = option;
-        }); */
-        
-        chevron.addEventListener("click", () => {
-            console.log('click');
-            toggle();
-        });
+    chevron.addEventListener("click", () => {
+        console.log('click');
+        toggle();
+    });
 
-        const close = () => {
-            dropdown.classList.remove("open");
-            onOpenClose();
-        };
-        
-        const open = () => {
-            dropdown.classList.add("open");
-            onOpenClose();
-        };
-        
-        const toggle = () => {
-            dropdown.classList.toggle("open");
-            onOpenClose();
+    const close = () => {
+        dropdown.classList.remove("open");
+        onOpenClose();
+    };
+    
+    const open = () => {
+        dropdown.classList.add("open");
+        onOpenClose();
+    };
+    
+    const toggle = () => {
+        dropdown.classList.toggle("open");
+        onOpenClose();
     };
 
     const onOpenClose = () => {

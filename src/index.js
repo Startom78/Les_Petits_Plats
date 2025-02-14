@@ -11,15 +11,33 @@ async function init() {
   const banner = document.querySelector('.banner');
   banner.appendChild(searchBar);
   const dropdownsContainer = document.querySelector('.dropdowns');
-  const dropdownI = createDropdown("Ingrédients", recipes.reduce((ingredients,recipe) =>{
-    recipe.ingredients.forEach(i=> ingredients.add(i.ingredient.toLowerCase()));
-    return ingredients
-  },new Set()),
+  const dropdownI = createDropdown("Ingrédients", 
+    recipes.reduce((ingredients,recipe) =>{
+      recipe.ingredients.forEach(i=> ingredients.add(i.ingredient.toLowerCase()));
+      return ingredients
+    },new Set()),
+    (option) => {
+      console.log(option);
+    }
+  );
+
+  const dropdownA = createDropdown("Appareils", recipes.reduce((appliance, recipe) => {
+    appliance.add(recipe.appliance.toLowerCase());
+    return appliance;
+  },new Set()));
+  (option) => {
+    console.log(option);
+  };
+
+  const dropdownU = createDropdown("Ustensils", recipes.reduce((ustensils,recipe) =>{
+    recipe.ustensils.forEach(u=> ustensils.add(u.toLowerCase()));
+    return ustensils
+  }
+  ,new Set()),
   (option) => {
     console.log(option);
   });
-  const dropdownA = createDropdown("Appareils", recipes.appareils)
-  const dropdownU = createDropdown("Ustensils", recipes.ustensils)
+  
   dropdownsContainer.appendChild(dropdownI);
   dropdownsContainer.appendChild(dropdownA);
   dropdownsContainer.appendChild(dropdownU);
