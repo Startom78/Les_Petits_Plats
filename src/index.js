@@ -28,8 +28,13 @@ async function init() {
 
     const dropdownsContainer = document.querySelector(".dropdowns");
 
+    const onSelect = (name, type) => {
+        createTag(name, type, onUnselect);
+        applyFilterTag();
+    };
     const onUnselect = (name, type) => {
         unselectItem(dropdownsContainer.querySelector("#" + type), name);
+        applyFilterTag();
     };
 
     const dropdownI = createDropdown(
@@ -41,7 +46,7 @@ async function init() {
             return ingredients;
         }, new Set()),
         (option) => {
-            createTag(option.selected, "ingrédients", onUnselect);
+            onSelect(option.selected, "ingrédients");
         },
         (option) => {
             removeTag(option.unselected, "ingrédients");
@@ -56,11 +61,9 @@ async function init() {
             return appliance;
         }, new Set()),
         (option) => {
-            console.log(option);
-            createTag(option.selected, "appareils");
+            onSelect(option.selected, "appareils");
         },
         (option) => {
-            console.log("remove", option.unselected);
             removeTag(option.unselected.trim(), "appareils", onUnselect);
         },
         false
@@ -74,11 +77,9 @@ async function init() {
             return ustensils;
         }, new Set()),
         (option) => {
-            console.log(option);
-            createTag(option.selected, "ustensils");
+            onSelect(option.selected, "ustensils");
         },
         (option) => {
-            console.log("remove", option.unselected);
             removeTag(option.unselected, "ustensils");
         }
     );
@@ -95,6 +96,15 @@ async function init() {
         const card = createCard(recipe);
         cards.appendChild(card);
     });
+    let filteredSearchRecipes = [...recipes];
+
+    const applyFilterSearch = () => {};
+    const applyFilterTag = () => {
+        const result = filteredSearchRecipes.filter((recipe) => true);
+        renderRecipes(result);
+    };
+
+    const renderRecipes = (recipes) => {};
 }
 window.onload = () => {
     init();
