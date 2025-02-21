@@ -1,0 +1,26 @@
+.tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    & .tag{
+        width: 203px;
+        height: 53px;
+        background-color: #FFD15B;
+        border-radius: 10px;
+        border: 1px solid red;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 18px;
+    }
+
+    & p{
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    & .fa-xmark{
+        cursor: pointer;
+    }
+}
