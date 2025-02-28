@@ -65,7 +65,7 @@ function createDropdown(
     return dropdown;
 }
 
-function updateDropdownOptions(dropdown, options) {
+export function updateDropdownOptions(dropdown, options) {
     const items = dropdown.querySelector(".items");
     const selecteds = dropdown.querySelector(".selecteds");
     const multiSelection = dropdown.getAttribute("multi-selection");
@@ -74,13 +74,20 @@ function updateDropdownOptions(dropdown, options) {
 
     items.innerHTML = "";
     selecteds.innerHTML = "";
-
-    options?.forEach((option, index) => {
+    const optionItems = options
+        ? [...options].map((option) =>
+              typeof option === "string"
+                  ? { name: option, disabled: false }
+                  : option
+          )
+        : [];
+    optionItems?.forEach((option, index) => {
         const item = document.createElement("div");
         item.className = "item";
-        item.textContent = option;
+        item.textContent = option.name;
         item.setAttribute("key-item", `item-${index}`);
-        item.addEventListener("click", () => {
+        item.setAttribute("key-disabled", `${option.disabled}`);
+        const onSelectCallBack = () => {
             if (multiSelection === "false") {
                 const lastSelected = [...selecteds.querySelectorAll(".item")];
                 lastSelected.forEach((s) => {
@@ -104,7 +111,7 @@ function updateDropdownOptions(dropdown, options) {
             const selected = document.createElement("div");
             selected.className = "item";
             selected.setAttribute("key-item", `item-${index}`);
-            selected.innerHTML = `<span>${option}</span><i class="fa-solid fa-circle-xmark close-button"></i>`;
+            selected.innerHTML = `<span>${option.name}</span><i class="fa-solid fa-circle-xmark close-button"></i>`;
 
             item.classList.add("hidden");
             const closeButton = selected.querySelector(".close-button");
@@ -112,7 +119,7 @@ function updateDropdownOptions(dropdown, options) {
                 item.classList.remove("hidden");
                 selected.remove();
                 onUnselect?.({
-                    unselected: option,
+                    unselected: option.name,
                     selecteds: [...selecteds.querySelectorAll(".item")].map(
                         (item) => item.querySelector("span").textContent
                     ),
@@ -121,12 +128,14 @@ function updateDropdownOptions(dropdown, options) {
 
             selecteds.appendChild(selected);
             onSelect?.({
-                selected: option,
+                selected: option.name,
                 selecteds: [...selecteds.querySelectorAll(".item")].map(
                     (item) => item.querySelector("span").textContent
                 ),
             });
-        });
+        };
+
+        item.addEventListener("click", onSelectCallBack);
         items.appendChild(item);
     });
 }

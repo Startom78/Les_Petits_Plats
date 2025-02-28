@@ -39,7 +39,6 @@ body {
     padding: 20px;
     gap: 50px;
     height: 667px;
-    border: 1px solid red;
     background-image: url("./Images/Image_Header/HeaderImg.png");
     background-size: cover;
     background-position: center;
@@ -47,7 +46,6 @@ body {
 
     & .logo{
         padding-bottom: 170px;
-        border: 1px solid blue;
     }
 
     & .banner{
@@ -55,7 +53,6 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 1px solid brown;
         width: 100%;
         padding: 0 15%;
         gap: 30px;
@@ -64,7 +61,6 @@ body {
             font-weight: 400;
             font-family: Anton, sans-serif;
             font-size: clamp(25px, 4vw, 44px);
-            border: 1px solid purple;
             text-align: center;
             color: #FFD15B;
         }  
@@ -84,7 +80,6 @@ main{
     align-items: center;
     width: 100%;
     height: 100%;
-    border: 1px solid greenyellow;
     width: 100%;
     padding: 0 100px;
 
@@ -92,7 +87,6 @@ main{
 
     & p{
         font-size: 12px;
-        border: 1px solid orange;
     }
 
     & .topBar{
@@ -100,7 +94,6 @@ main{
         flex-direction: column;
         justify-content: space-between;
         width: 100%;
-        border: 1px solid red;
         gap: 25px;
         padding: 21px 0;
 
@@ -119,7 +112,6 @@ main{
         & .totalRecipes{
             width: 100px;
             height: 30px;
-            border: 1px solid purple;
         }
 
         & .tags{
@@ -136,24 +128,21 @@ main{
         grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
         gap: 48px;
         align-items: center;
-        border: 1px solid blue;
     }
     & .card{
         width: 100%;
-        border: 1px solid purple;
         background-color: white;
-        border-radius: 21px;
         box-shadow: 0 4px 34px 30px #0000000A;
         overflow: hidden;
         display: flex; 
         flex-direction: column; 
         align-items: center; 
+        border-radius: 21px;
         
         & .imgContainer{
             position: relative;
             width: 100%;
             height: 253px;
-            border: 1px solid green;
             
             & img{
                 width: 100%;
@@ -166,19 +155,16 @@ main{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                right: 0;
-                top: 0;
-                margin: 26px 11px 0 0;
+                right: 20px;
+                top: 20px;
                 border-radius: 14px;
-                min-width: 50px;
-                min-height: 20px;
+                min-width: 64px;
+                min-height: 26px;
                 background-color: #FFD15B;
-                border: 1px solid red;
                 
                 & .timeCooking{
                     font-size: 12px;
                     font-weight: none;
-                    border: 1px solid green;
                 }
             }
         }
@@ -186,7 +172,6 @@ main{
 
         & .titleRecipe{
             font-weight: 400;
-            border: 1px solid brown;
             font-size: 18px;
             gap: 10px;
             font-family: Anton, sans-serif;
@@ -197,7 +182,6 @@ main{
             flex-direction: column;
             gap: 20px;
             padding: 32px 25px 60px 25px;
-            border: 1px solid turquoise;
             
             & .titleInCard{
                 font-size: 12px;
@@ -210,13 +194,11 @@ main{
                 display: flex;
                 flex-direction: column;
                 gap: 15px;
-                border: 1px dashed orange;
             }
             & .text{
                 display: -webkit-box;
                 min-height: 65px;
                 font-size: 14px;
-                border: 1px solid brown;
                 -webkit-line-clamp: 4;
                 -webkit-box-orient: vertical;
                 line-clamp: 4;
@@ -233,7 +215,6 @@ main{
                 display: flex;
                 flex-wrap: wrap;
                 align-items: start;
-                border: 1px solid red;
                 gap: 10px 20px;
                 
                 

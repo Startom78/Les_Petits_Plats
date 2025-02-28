@@ -2,9 +2,11 @@ import API from "./api/api.js";
 import createCard from "../Components/card.js";
 import createDropdown, {
     unselectItem,
+    updateDropdownOptions,
 } from "../Components/dropdown/dropdown.js";
 import createSearchBar from "../Components/searchbar/searchBar.js";
 import createTag, { removeTag } from "../Components/tags/tags.js";
+import { applySearchFilter, applyTagsFilter } from "../algorithms.js";
 
 const getRecipes = API.getRecipes;
 
@@ -20,6 +22,7 @@ async function init() {
         },
         (value) => {
             console.log("submit", value);
+            applyFilterSearch(value);
         }
     );
 
@@ -36,15 +39,29 @@ async function init() {
         unselectItem(dropdownsContainer.querySelector("#" + type), name);
         applyFilterTag();
     };
-
-    const dropdownI = createDropdown(
-        "Ingrédients",
+    const extractIngredients = (recipes) =>
         recipes.reduce((ingredients, recipe) => {
             recipe.ingredients.forEach((i) =>
                 ingredients.add(i.ingredient.toLowerCase())
             );
             return ingredients;
-        }, new Set()),
+        }, new Set());
+
+    const extractAppliances = (recipes) =>
+        recipes.reduce((appliance, recipe) => {
+            appliance.add(recipe.appliance.toLowerCase());
+            return appliance;
+        }, new Set());
+
+    const extractUstensils = (recipes) =>
+        recipes.reduce((ustensils, recipe) => {
+            recipe.ustensils.forEach((u) => ustensils.add(u.toLowerCase()));
+            return ustensils;
+        }, new Set());
+
+    const dropdownI = createDropdown(
+        "Ingrédients",
+        extractIngredients(recipes),
         (option) => {
             onSelect(option.selected, "ingrédients");
         },
@@ -56,10 +73,7 @@ async function init() {
 
     const dropdownA = createDropdown(
         "Appareils",
-        recipes.reduce((appliance, recipe) => {
-            appliance.add(recipe.appliance.toLowerCase());
-            return appliance;
-        }, new Set()),
+        extractAppliances(recipes),
         (option) => {
             onSelect(option.selected, "appareils");
         },
@@ -72,10 +86,7 @@ async function init() {
 
     const dropdownU = createDropdown(
         "Ustensils",
-        recipes.reduce((ustensils, recipe) => {
-            recipe.ustensils.forEach((u) => ustensils.add(u.toLowerCase()));
-            return ustensils;
-        }, new Set()),
+        extractUstensils(recipes),
         (option) => {
             onSelect(option.selected, "ustensils");
         },
@@ -96,15 +107,48 @@ async function init() {
         const card = createCard(recipe);
         cards.appendChild(card);
     });
-    let filteredSearchRecipes = [...recipes];
 
-    const applyFilterSearch = () => {};
-    const applyFilterTag = () => {
-        const result = filteredSearchRecipes.filter((recipe) => true);
-        renderRecipes(result);
+    let filteredSearchRecipes = [...recipes];
+    let resultRecipes = [...recipes];
+
+    const applyFilterSearch = (value) => {
+        filteredSearchRecipes = applySearchFilter(recipes, value);
+        const tagsBar = document.querySelector(".tags");
+        tagsBar.innerHTML = "";
+        updateDropdownOptions(
+            dropdownI,
+            extractIngredients(filteredSearchRecipes)
+        );
+        updateDropdownOptions(
+            dropdownA,
+            extractAppliances(filteredSearchRecipes)
+        );
+        updateDropdownOptions(
+            dropdownU,
+            extractUstensils(filteredSearchRecipes)
+        );
+        renderRecipes(filteredSearchRecipes);
     };
 
-    const renderRecipes = (recipes) => {};
+    const applyFilterTag = () => {
+        const tagsBar = document.querySelector(".tags");
+        const tags = [...tagsBar.querySelectorAll(".tag")].map((tag) => ({
+            name: tag.getAttribute("key-name"),
+            type: tag.getAttribute("key-type"),
+        }));
+        resultRecipes = applyTagsFilter(filteredSearchRecipes, tags);
+        renderRecipes(resultRecipes);
+    };
+
+    const renderRecipes = (recipes) => {
+        const cards = document.querySelector(".cards");
+        cards.innerHTML = "";
+        recipes.forEach((recipe) => {
+            // Pour chaque recette, je crée une carte de celle-ci
+            const card = createCard(recipe);
+            cards.appendChild(card);
+        });
+    };
 }
 window.onload = () => {
     init();
