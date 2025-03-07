@@ -121,117 +121,126 @@ main{
         }
     }
     
-    & .cards{
-        width: 100%;
-        height: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-        gap: 48px;
-        align-items: center;
+    
+}
+
+.cards{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    @media screen and (max-width: 1440px){
+        grid-template-columns: 1fr 1fr;
     }
-    & .card{
+    @media screen and (max-width: 1024px){
+        grid-template-columns: 1fr;
+    }
+}
+
+.card{
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 4px 34px 30px #0000000A;
+    overflow: hidden;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    border-radius: 21px;
+    
+    & .imgContainer{
+        position: relative;
         width: 100%;
-        background-color: white;
-        box-shadow: 0 4px 34px 30px #0000000A;
-        overflow: hidden;
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        border-radius: 21px;
+        height: 253px;
         
-        & .imgContainer{
-            position: relative;
+        & img{
             width: 100%;
-            height: 253px;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        & .timeContainer{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 20px;
+            top: 20px;
+            border-radius: 14px;
+            min-width: 64px;
+            min-height: 26px;
+            background-color: #FFD15B;
             
-            & img{
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-            & .timeContainer{
-                position: absolute;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                right: 20px;
-                top: 20px;
-                border-radius: 14px;
-                min-width: 64px;
-                min-height: 26px;
-                background-color: #FFD15B;
-                
-                & .timeCooking{
-                    font-size: 12px;
-                    font-weight: none;
-                }
+            & .timeCooking{
+                font-size: 12px;
+                font-weight: none;
             }
         }
+    }
+    
+
+    & .titleRecipe{
+        font-weight: 400;
+        font-size: 18px;
+        gap: 10px;
+        font-family: Anton, sans-serif;
+    }
+
+    & .infoRecipe{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 32px 25px 60px 25px;
         
-
-        & .titleRecipe{
-            font-weight: 400;
-            font-size: 18px;
-            gap: 10px;
-            font-family: Anton, sans-serif;
+        & .titleInCard{
+            font-size: 12px;
+            font-weight: 700;
+            font-family: Manrope, sans-serif;
+            color: #7A7A7A;
+            text-transform: uppercase;
         }
-
-        & .infoRecipe{
+        & .recipeBlock{
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 32px 25px 60px 25px;
+            gap: 15px;
+        }
+        & .text{
+            display: -webkit-box;
+            min-height: 65px;
+            font-size: 14px;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            line-clamp: 4;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            line-height: 19px;
+            color: #1B1B1B;
+        }
+
+        & .listOfIngredients{
+            width: 100%;
+            height: 160px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: start;
+            gap: 10px 20px;
             
-            & .titleInCard{
-                font-size: 12px;
-                font-weight: 700;
-                font-family: Manrope, sans-serif;
-                color: #7A7A7A;
-                text-transform: uppercase;
-            }
-            & .recipeBlock{
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-            & .text{
-                display: -webkit-box;
-                min-height: 65px;
-                font-size: 14px;
-                -webkit-line-clamp: 4;
-                -webkit-box-orient: vertical;
-                line-clamp: 4;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                line-height: 19px;
-                color: #1B1B1B;
-            }
+            
+            & .myIngredient{
+                width:calc(50% - 10px);
 
-            & .listOfIngredients{
-                width: 100%;
-                height: 160px;
-                overflow-y: auto;
-                display: flex;
-                flex-wrap: wrap;
-                align-items: start;
-                gap: 10px 20px;
-                
-                
-                & .myIngredient{
-                    width:calc(50% - 10px);
+                & .ingredient{
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #1B1B1B;
+                }
 
-                    & .ingredient{
-                        font-size: 14px;
-                        font-weight: 500;
-                        color: #1B1B1B;
-                    }
-
-                    & .quantity{
-                        font-size: 14px;
-                        font-weight: 400;
-                        color: #7A7A7A;
-                    }
+                & .quantity{
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #7A7A7A;
                 }
             }
         }

@@ -57,7 +57,7 @@
 
     & .list{
         height: 243px;
-        width: calc(100% + 20px);
+        width: calc(100% + 15px);
         overflow-y: auto;
         padding-right: 20px;
         box-sizing: content-box;

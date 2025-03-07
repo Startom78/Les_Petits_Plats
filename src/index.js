@@ -3,10 +3,12 @@ import createCard from "../Components/card.js";
 import createDropdown, {
     unselectItem,
     updateDropdownOptions,
+    disableDropdownOptions,
 } from "../Components/dropdown/dropdown.js";
 import createSearchBar from "../Components/searchbar/searchBar.js";
 import createTag, { removeTag } from "../Components/tags/tags.js";
-import { applySearchFilter, applyTagsFilter } from "../algorithms.js";
+import filterApi from "../algorithms.js";
+//import filterApi from "../algorithms-native.js";
 
 const getRecipes = API.getRecipes;
 
@@ -36,6 +38,7 @@ async function init() {
         applyFilterTag();
     };
     const onUnselect = (name, type) => {
+        console.log(name, type);
         unselectItem(dropdownsContainer.querySelector("#" + type), name);
         applyFilterTag();
     };
@@ -67,6 +70,7 @@ async function init() {
         },
         (option) => {
             removeTag(option.unselected, "ingrédients");
+            onUnselect(option.unselected, "ingrédients");
         }
     );
     dropdownI.setAttribute("id", "ingrédients");
@@ -79,6 +83,7 @@ async function init() {
         },
         (option) => {
             removeTag(option.unselected.trim(), "appareils", onUnselect);
+            onUnselect(option.unselected, "appareils");
         },
         false
     );
@@ -92,6 +97,7 @@ async function init() {
         },
         (option) => {
             removeTag(option.unselected, "ustensils");
+            onUnselect(option.unselected, "ustensils");
         }
     );
     dropdownU.setAttribute("id", "ustensils", onUnselect);
@@ -112,7 +118,7 @@ async function init() {
     let resultRecipes = [...recipes];
 
     const applyFilterSearch = (value) => {
-        filteredSearchRecipes = applySearchFilter(recipes, value);
+        filteredSearchRecipes = filterApi.applySearchFilter(recipes, value);
         const tagsBar = document.querySelector(".tags");
         tagsBar.innerHTML = "";
         updateDropdownOptions(
@@ -136,7 +142,12 @@ async function init() {
             name: tag.getAttribute("key-name"),
             type: tag.getAttribute("key-type"),
         }));
-        resultRecipes = applyTagsFilter(filteredSearchRecipes, tags);
+        console.log(tags);
+        resultRecipes = filterApi.applyTagsFilter(filteredSearchRecipes, tags);
+
+        disableDropdownOptions(dropdownI, extractIngredients(resultRecipes));
+        disableDropdownOptions(dropdownA, extractAppliances(resultRecipes));
+        disableDropdownOptions(dropdownU, extractUstensils(resultRecipes));
         renderRecipes(resultRecipes);
     };
 

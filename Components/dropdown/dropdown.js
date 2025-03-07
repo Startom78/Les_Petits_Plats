@@ -81,11 +81,11 @@ export function updateDropdownOptions(dropdown, options) {
                   : option
           )
         : [];
-    optionItems?.forEach((option, index) => {
+    optionItems?.forEach((option) => {
         const item = document.createElement("div");
         item.className = "item";
         item.textContent = option.name;
-        item.setAttribute("key-item", `item-${index}`);
+        item.setAttribute("key-item", `item-${option.name}`);
         item.setAttribute("key-disabled", `${option.disabled}`);
         const onSelectCallBack = () => {
             if (multiSelection === "false") {
@@ -110,7 +110,7 @@ export function updateDropdownOptions(dropdown, options) {
             }
             const selected = document.createElement("div");
             selected.className = "item";
-            selected.setAttribute("key-item", `item-${index}`);
+            selected.setAttribute("key-item", `item-${option.name}`);
             selected.innerHTML = `<span>${option.name}</span><i class="fa-solid fa-circle-xmark close-button"></i>`;
 
             item.classList.add("hidden");
@@ -118,6 +118,7 @@ export function updateDropdownOptions(dropdown, options) {
             closeButton.addEventListener("click", () => {
                 item.classList.remove("hidden");
                 selected.remove();
+                console.log("un truc", onUnselect);
                 onUnselect?.({
                     unselected: option.name,
                     selecteds: [...selecteds.querySelectorAll(".item")].map(
@@ -140,18 +141,51 @@ export function updateDropdownOptions(dropdown, options) {
     });
 }
 
+export function disableDropdownOptions(dropdown, options) {
+    const items = [...dropdown.querySelectorAll(".items .item")];
+    const selecteds = [...dropdown.querySelectorAll(".selecteds .item")];
+    options = Array.from(options);
+    console.log(options);
+    items.forEach((item) => {
+        //console.log(item);
+        if (
+            options.find(
+                (option) =>
+                    "item-" + option.toLowerCase() ===
+                    item.getAttribute("key-item")
+            )
+        ) {
+            item.setAttribute("key-disabled", "false");
+        } else {
+            item.setAttribute("key-disabled", "true");
+        }
+    });
+
+    selecteds.forEach((item) => {
+        if (
+            options.find(
+                (option) => "item-" + option === item.getAttribute("key-item")
+            )
+        ) {
+            item.setAttribute("key-disabled", "false");
+        } else {
+            item.setAttribute("key-disabled", "true");
+        }
+    });
+}
+
 export function unselectItem(dropdown, option) {
     const items = dropdown.querySelector(".items");
     const selecteds = dropdown.querySelector(".selecteds");
     const onUnselect = dropdown.onUnselect;
-    console.log("unselected", option);
+    console.log("unselected", option, selecteds);
     const selected = selecteds.querySelector(
         `.item[key-item="item-${option}"]`
     );
-    console.log(selected);
     if (!selected) return;
     const item = items.querySelector(`.item[key-item="item-${option}"]`);
     if (!item) return;
+    console.log(selected);
     item.classList.remove("hidden");
     selected.remove();
     onUnselect?.({
