@@ -1,13 +1,43 @@
+function searchInText(inText, value) {
+    return inText.toLowerCase().includes(value);
+}
+
+function searchInTitle(recipe, searchText) {
+    return searchInText(recipe.name, searchText);
+}
+
+function searchInIngredients(recipe, searchText) {
+    return recipe.ingredients.some((ingredient) =>
+        searchInText(ingredient.ingredient, searchText)
+    );
+}
+
+function searchInDescription(recipe, searchText) {
+    return searchInText(recipe.description, searchText);
+}
+
+function isTagInIngredients(recipe, tag) {
+    return recipe.ingredients.some(
+        (ingredient) => ingredient.ingredient.toLowerCase() === tag.name
+    );
+}
+
+function isTagInAppliance(recipe, tag) {
+    return recipe.appliance.toLowerCase() === tag.name;
+}
+
+function isTagInUstensils(recipe, tag) {
+    return recipe.ustensils.some((u) => u.toLowerCase() === tag.name);
+}
+
 const filterApi = {
     applySearchFilter: (recipes, searchValue) => {
         const value = searchValue.toLowerCase();
         return recipes.filter(
             (recipe) =>
-                recipe.name.toLowerCase().includes(value) ||
-                recipe.ingredients.some((ingredient) =>
-                    ingredient.ingredient.toLowerCase().includes(value)
-                ) ||
-                recipe.description.toLowerCase().includes(value)
+                searchInTitle(recipe, value) ||
+                searchInIngredients(recipe, value) ||
+                searchInDescription(recipe, value)
         );
     },
     applyTagsFilter: (recipes, tagsList) => {
@@ -15,16 +45,11 @@ const filterApi = {
         return recipes.filter((recipe) =>
             tagsList.every((tag) => {
                 if (tag.type === "ingrédients") {
-                    return recipe.ingredients.some(
-                        (ingredient) =>
-                            ingredient.ingredient.toLowerCase() === tag.name
-                    );
+                    return isTagInIngredients(recipe, tag);
                 } else if (tag.type === "appareils") {
-                    return recipe.appliance.toLowerCase() === tag.name;
+                    return isTagInAppliance(recipe, tag);
                 } else if (tag.type === "ustensils") {
-                    return recipe.ustensils.some(
-                        (u) => u.toLowerCase() === tag.name
-                    );
+                    return isTagInUstensils(recipe, tag);
                 }
 
                 return false;

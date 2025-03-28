@@ -1,7 +1,13 @@
 const ArrayMethods = {
+    /**
+     * Filtre un tableau
+     * @param {Array} arr
+     * @param {Function} condition callback
+     * @returns {Array}  nouvel array filtré
+     */
     filter: (arr, condition) => {
         const result = [];
-        for (const i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             if (condition(arr[i], i, arr)) {
                 result.push(arr);
             }
@@ -9,16 +15,22 @@ const ArrayMethods = {
         return result;
     },
 
+    /**
+     *
+     * @param {Array} arr
+     * @param {Function} format
+     * @returns {Array} nouveau tableau formaté
+     */
     map: (arr, format) => {
         const result = new Array(arr.length);
-        for (const i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             result[i] = format(arr[i], i, arr);
         }
         return result;
     },
 
     find: (arr, condition) => {
-        for (const i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             if (condition(arr[i], i, arr)) {
                 return arr[i];
             }
@@ -27,7 +39,7 @@ const ArrayMethods = {
     },
 
     some: (arr, condition) => {
-        for (const i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             if (condition(arr[i], i, arr)) {
                 return true;
             }
@@ -36,7 +48,7 @@ const ArrayMethods = {
     },
 
     any: (arr, condition) => {
-        for (const i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             if (!condition(arr[i], i, arr)) {
                 return false;
             }
@@ -46,8 +58,17 @@ const ArrayMethods = {
 
     reduce: (arr, reducer, initial) => {
         let obj = initial;
-        for (const i = 0; i < arr.length; i++) obj = reducer(obj, arr[i], i);
+        for (let i = 0; i < arr.length; i++) obj = reducer(obj, arr[i], i);
         return obj;
+    },
+
+    every: (arr, condition) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (!condition(arr[i], i, arr)) {
+                return false;
+            }
+        }
+        return true;
     },
 };
 
@@ -122,41 +143,44 @@ const filterApi = {
 export default filterApi;
 
 export const filterApi2 = {
-    // Faire la méthode Every et remplacer par ceci
     applySearchFilter: (recipes, searchValue) => {
         const value = searchValue.toLowerCase();
+
         return ArrayMethods.filter(
             recipes,
             (recipe) =>
+                // Recherche dans le titre
                 recipe.name.toLowerCase().includes(value) ||
+                // Recherche dans les ingrédients
                 ArrayMethods.some(
                     recipe.ingredients,
                     (
                         ingredient // ajouter méthode some ici
                     ) => ingredient.ingredient.toLowerCase().includes(value)
                 ) ||
+                // Recherche dans la description
                 recipe.description.toLowerCase().includes(value)
         );
     },
     applyTagsFilter: (recipes, tagsList) => {
         console.log(tagsList);
-        return recipes.filter(
-            (
-                recipe // ajouter méthode filter ici
-            ) =>
-                tagsList.every((tag) => {
-                    // ajouter méthode every ici
+        return ArrayMethods.filter(
+            recipes, // Filtre les recettes par tags
+            (recipe) =>
+                ArrayMethods.every(tagsList, (tag) => {
+                    // Cherche si, dans chaque recette, tous les tags sont appliqués
                     if (tag.type === "ingrédients") {
-                        return recipe.ingredients.some(
-                            // ajouter méthode some ici
+                        return ArrayMethods.some(
+                            recipe.ingredients,
+
                             (ingredient) =>
                                 ingredient.ingredient.toLowerCase() === tag.name
                         );
                     } else if (tag.type === "appareils") {
                         return recipe.appliance.toLowerCase() === tag.name;
                     } else if (tag.type === "ustensils") {
-                        return recipe.ustensils.some(
-                            // ajouter méthode some ici
+                        return ArrayMethods.some(
+                            recipe.ustensils,
                             (u) => u.toLowerCase() === tag.name
                         );
                     }
@@ -166,3 +190,6 @@ export const filterApi2 = {
         );
     },
 };
+
+// Test Benchmark
+// Faire la page quand il n'y a aucune correspondance
