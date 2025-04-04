@@ -11,6 +11,16 @@ import filterApi from "../algorithms.js";
 //import filterApi from "../algorithms-native.js";
 
 const getRecipes = API.getRecipes;
+const emptyCards = document.querySelector(".emptyCards");
+
+function initEmptyCards(input) {
+    const tags = [...emptyCards.querySelectorAll(".searchText-suggestion")];
+    tags.forEach((tag) => {
+        tag.onclick = () => {
+            input.value = tag.textContent.trim();
+        };
+    });
+}
 
 async function init() {
     // Récupère les datas des recettes
@@ -27,6 +37,8 @@ async function init() {
             applyFilterSearch(value);
         }
     );
+
+    initEmptyCards(searchBar.querySelector("input"));
 
     const banner = document.querySelector(".banner");
     banner.appendChild(searchBar);
@@ -154,11 +166,18 @@ async function init() {
     const renderRecipes = (recipes) => {
         const cards = document.querySelector(".cards");
         cards.innerHTML = "";
-        recipes.forEach((recipe) => {
-            // Pour chaque recette, je crée une carte de celle-ci
-            const card = createCard(recipe);
-            cards.appendChild(card);
-        });
+        if (recipes.length > 0) {
+            recipes.forEach((recipe) => {
+                // Pour chaque recette, je crée une carte de celle-ci
+                const card = createCard(recipe);
+                cards.appendChild(card);
+            });
+            cards.style.display = "grid";
+            emptyCards.style.display = "none";
+        } else {
+            cards.style.display = "none";
+            emptyCards.style.display = "block";
+        }
     };
 }
 window.onload = () => {
