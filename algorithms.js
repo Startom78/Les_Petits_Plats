@@ -41,7 +41,6 @@ const filterApi = {
         );
     },
     applyTagsFilter: (recipes, tagsList) => {
-        console.log(tagsList);
         return recipes.filter((recipe) =>
             tagsList.every((tag) => {
                 if (tag.type === "ingrédients") {

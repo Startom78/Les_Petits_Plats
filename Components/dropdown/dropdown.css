@@ -57,7 +57,7 @@
 
     & .list{
         height: 243px;
-        width: calc(100% + 15px);
+        width: calc(100% + 14px);
         overflow-y: auto;
         padding-right: 20px;
         box-sizing: content-box;
@@ -79,10 +79,13 @@
             align-items: center;
             justify-content: space-between;
             background-color: #FFD15B;
+            font-weight: bold;
+            font-family: Manrope, sans-serif;
         }
 
         & .fa-circle-xmark{
             cursor: pointer;
+            padding-right: 5px;
         }
     }
 
@@ -95,7 +98,7 @@
     & .item{
         width: 100%;
         padding: 12px 16px;
-        font-size: 12px;
+        font-size: 14px;
         color: #1B1B1B;
         font-weight: 400;
         &.hidden{

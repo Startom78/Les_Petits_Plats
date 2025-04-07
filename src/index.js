@@ -7,6 +7,7 @@ import createDropdown, {
 } from "../Components/dropdown/dropdown.js";
 import createSearchBar from "../Components/searchbar/searchBar.js";
 import createTag, { removeTag } from "../Components/tags/tags.js";
+import totalRecipes from "../Components/totalrecipes/totalRecipes.js";
 import filterApi from "../algorithms.js";
 //import filterApi from "../algorithms-native.js";
 
@@ -33,7 +34,6 @@ async function init() {
             console.log(value);
         },
         (value) => {
-            console.log("submit", value);
             applyFilterSearch(value);
         }
     );
@@ -50,7 +50,6 @@ async function init() {
         applyFilterTag();
     };
     const onUnselect = (name, type) => {
-        console.log(name, type);
         unselectItem(dropdownsContainer.querySelector("#" + type), name);
         applyFilterTag();
     };
@@ -126,6 +125,8 @@ async function init() {
         cards.appendChild(card);
     });
 
+    totalRecipes(recipes);
+
     let filteredSearchRecipes = [...recipes];
     let resultRecipes = [...recipes];
 
@@ -146,6 +147,7 @@ async function init() {
             extractUstensils(filteredSearchRecipes)
         );
         renderRecipes(filteredSearchRecipes);
+        totalRecipes(filteredSearchRecipes);
     };
 
     const applyFilterTag = () => {
@@ -154,13 +156,13 @@ async function init() {
             name: tag.getAttribute("key-name"),
             type: tag.getAttribute("key-type"),
         }));
-        console.log(tags);
         resultRecipes = filterApi.applyTagsFilter(filteredSearchRecipes, tags);
 
         disableDropdownOptions(dropdownI, extractIngredients(resultRecipes));
         disableDropdownOptions(dropdownA, extractAppliances(resultRecipes));
         disableDropdownOptions(dropdownU, extractUstensils(resultRecipes));
         renderRecipes(resultRecipes);
+        totalRecipes(resultRecipes);
     };
 
     const renderRecipes = (recipes) => {

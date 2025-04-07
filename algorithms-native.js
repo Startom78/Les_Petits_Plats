@@ -94,7 +94,6 @@ const filterApi = {
     },
 
     applyTagsFilter: (recipes, tagsList) => {
-        console.log(tagsList);
         const filteredRecipes = [];
 
         for (let i = 0; i < recipes.length; i++) {
@@ -163,7 +162,6 @@ export const filterApi2 = {
         );
     },
     applyTagsFilter: (recipes, tagsList) => {
-        console.log(tagsList);
         return ArrayMethods.filter(
             recipes, // Filtre les recettes par tags
             (recipe) =>

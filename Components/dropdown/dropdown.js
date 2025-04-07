@@ -118,7 +118,6 @@ export function updateDropdownOptions(dropdown, options) {
             closeButton.addEventListener("click", () => {
                 item.classList.remove("hidden");
                 selected.remove();
-                console.log("un truc", onUnselect);
                 onUnselect?.({
                     unselected: option.name,
                     selecteds: [...selecteds.querySelectorAll(".item")].map(
@@ -145,9 +144,7 @@ export function disableDropdownOptions(dropdown, options) {
     const items = [...dropdown.querySelectorAll(".items .item")];
     const selecteds = [...dropdown.querySelectorAll(".selecteds .item")];
     options = Array.from(options);
-    console.log(options);
     items.forEach((item) => {
-        //console.log(item);
         if (
             options.find(
                 (option) =>
@@ -178,14 +175,12 @@ export function unselectItem(dropdown, option) {
     const items = dropdown.querySelector(".items");
     const selecteds = dropdown.querySelector(".selecteds");
     const onUnselect = dropdown.onUnselect;
-    console.log("unselected", option, selecteds);
     const selected = selecteds.querySelector(
         `.item[key-item="item-${option}"]`
     );
     if (!selected) return;
     const item = items.querySelector(`.item[key-item="item-${option}"]`);
     if (!item) return;
-    console.log(selected);
     item.classList.remove("hidden");
     selected.remove();
     onUnselect?.({
