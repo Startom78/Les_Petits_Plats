@@ -58,7 +58,7 @@
     & .list{
         height: 243px;
         width: calc(100% + 14px);
-        overflow-y: auto;
+        overflow-y: scroll;
         padding-right: 20px;
         box-sizing: content-box;
         display: flex;
@@ -81,11 +81,11 @@
             background-color: #FFD15B;
             font-weight: bold;
             font-family: Manrope, sans-serif;
+            padding-right: 5px;
         }
 
         & .fa-circle-xmark{
             cursor: pointer;
-            padding-right: 5px;
         }
     }
 
