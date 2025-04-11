@@ -26,16 +26,34 @@ function initEmptyCards(input) {
 async function init() {
     // Récupère les datas des recettes
     const recipes = await getRecipes();
+    let timeOutSearch = null;
+    let lastValue = "";
 
+    const debounceSubmit = (value) => {
+        // Compacte les espaces
+        value = value.replace(/\s\s+/g, " ");
+        if (value.length < 3) {
+            return;
+        }
+        if (value.trim() === lastValue.trim()) {
+            return;
+        }
+
+        lastValue = value;
+
+        if (timeOutSearch) {
+            clearTimeout(timeOutSearch);
+            timeOutSearch = null;
+        }
+        timeOutSearch = setTimeout(() => applyFilterSearch(value), 500);
+    };
     const searchBar = createSearchBar(
         "Rechercher une recette, un ingrédient...",
         "",
         (value) => {
             console.log(value);
         },
-        (value) => {
-            applyFilterSearch(value);
-        }
+        debounceSubmit
     );
 
     initEmptyCards(searchBar.querySelector("input"));
