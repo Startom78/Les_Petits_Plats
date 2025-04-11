@@ -8,8 +8,8 @@ import createDropdown, {
 import createSearchBar from "../Components/searchbar/searchBar.js";
 import createTag, { removeTag } from "../Components/tags/tags.js";
 import totalRecipes from "../Components/totalrecipes/totalRecipes.js";
-import filterApi from "../algorithms.js";
-//import filterApi from "../algorithms-native.js";
+//import filterApi from "../algorithms.js";
+import filterApi from "../algorithms-native.js";
 
 const getRecipes = API.getRecipes;
 const emptyCards = document.querySelector(".emptyCards");
