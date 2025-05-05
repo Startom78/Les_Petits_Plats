@@ -43,6 +43,7 @@ const createSearchBar = (
     closeButton.addEventListener("click", () => {
         input.value = "";
         closeButton.classList.remove("visible");
+        onChange?.("");
     });
 
     div.appendChild(input);

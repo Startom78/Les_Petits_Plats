@@ -48,8 +48,47 @@ function createDropdown(
 
     const searchContainer = document.createElement("div");
     searchContainer.className = "searchContainer";
+    const onChange = (value) => {
+        const allItems = [...items.querySelectorAll(".item")];
+        const allSelecteds = [...selecteds.querySelectorAll(".item")];
+        value = value.toLowerCase().trim();
 
-    const searchBar = createSearchBar("", "small");
+        allItems.forEach((item) => {
+            item.classList.remove("hidden");
+        });
+        allSelecteds.forEach((item) => {
+            item.classList.remove("hidden");
+        });
+
+        if (value === "") {
+            return;
+        }
+
+        allItems.forEach((item) => {
+            if (
+                !item
+                    .getAttribute("key-item")
+                    .split("item-")[1]
+                    .toLowerCase()
+                    .includes(value)
+            ) {
+                item.classList.add("hidden");
+            }
+        });
+
+        allSelecteds.forEach((item) => {
+            if (
+                !item
+                    .getAttribute("key-item")
+                    .split("item-")[1]
+                    .toLowerCase()
+                    .includes(value)
+            ) {
+                item.classList.add("hidden");
+            }
+        });
+    };
+    const searchBar = createSearchBar("", "small", onChange, onChange);
     searchContainer.appendChild(searchBar);
 
     content.appendChild(searchContainer);

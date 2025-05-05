@@ -8,8 +8,8 @@ import createDropdown, {
 import createSearchBar from "../Components/searchbar/searchBar.js";
 import createTag, { removeTag } from "../Components/tags/tags.js";
 import totalRecipes from "../Components/totalrecipes/totalRecipes.js";
-import filterApi from "../algorithms.js";
-//import filterApi from "../algorithms-native.js";
+//import filterApi from "../algorithms.js";
+import filterApi from "../algorithms-native.js";
 
 const getRecipes = API.getRecipes;
 const emptyCards = document.querySelector(".emptyCards");
@@ -31,11 +31,12 @@ async function init() {
 
     const debounceSubmit = (value) => {
         // Compacte les espaces
-        value = value.replace(/\s\s+/g, " ");
-        if (value.length < 3) {
+        value = value.replace(/\s\s+/g, " ").trim();
+        if (value === lastValue) {
             return;
         }
-        if (value.trim() === lastValue.trim()) {
+
+        if (value.length < 3 && value.length > 0) {
             return;
         }
 
@@ -71,13 +72,16 @@ async function init() {
         unselectItem(dropdownsContainer.querySelector("#" + type), name);
         applyFilterTag();
     };
-    const extractIngredients = (recipes) =>
-        recipes.reduce((ingredients, recipe) => {
+
+    const extractIngredients = (recipes) => {
+        const ingredients = new Set();
+        recipes.forEach((recipe) => {
             recipe.ingredients.forEach((i) =>
                 ingredients.add(i.ingredient.toLowerCase())
             );
-            return ingredients;
-        }, new Set());
+        });
+        return ingredients;
+    };
 
     const extractAppliances = (recipes) =>
         recipes.reduce((appliance, recipe) => {
@@ -108,6 +112,7 @@ async function init() {
         "Appareils",
         extractAppliances(recipes),
         (option) => {
+            console.log(option.selected);
             onSelect(option.selected, "appareils");
         },
         (option) => {
