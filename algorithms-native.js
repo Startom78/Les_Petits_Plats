@@ -124,10 +124,6 @@ const filterApi = {
                         }
                     }
                 }
-
-                if (matchesTags === j + 1) {
-                    break;
-                }
             }
 
             if (matchesTags === tagsList.length) {

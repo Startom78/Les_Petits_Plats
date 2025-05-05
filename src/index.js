@@ -112,6 +112,7 @@ async function init() {
         "Appareils",
         extractAppliances(recipes),
         (option) => {
+            console.log(option.selected);
             onSelect(option.selected, "appareils");
         },
         (option) => {
